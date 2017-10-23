@@ -1,0 +1,24 @@
+
+
+
+
+afterEvaluate { project ->
+    uploadArchives {
+        repositories {
+            mavenDeployer {
+                pom.groupId =GROUPID
+                pom.artifactId = project.getName()
+                pom.version = android.defaultConfig.versionName
+                repository(url: mvn_android_release_url) {
+                    authentication(userName: mvn_release_name, password: mvn_release_pwd)
+                }
+                snapshotRepository(url: mvn_android_snapshot_url) {
+                    authentication(userName: mvn_snapshot_name, password: mvn_snapshot_pwd)
+                }
+            }
+        }
+    }
+//    artifacts {
+//        archives file(project.buildDir.absolutePath + '/outputs/aar/'+ 'model_a-release.aar')
+//    }
+}
