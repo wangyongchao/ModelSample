@@ -9,7 +9,7 @@
         <activity android:name="com.model.sampleb.ModelBActivity">
             <intent-filter>
                 <action android:name="com.model.sample.action.ModelBActivity" />
-
+                <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
 
         </activity>

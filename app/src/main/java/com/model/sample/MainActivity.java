@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.model.common.CommonUtils;
-
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     @Override
@@ -26,7 +24,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent("com.model.sample.action.ModelAActivity"));
         }
         if (id == R.id.modelB) {
-//            startActivity(new Intent(this, ModelBActivity.class));
+            startActivity(new Intent("com.model.sample.action.ModelBActivity"));
         }
 
     }

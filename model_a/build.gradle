@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
-//apply from: rootDir.absolutePath + '/buildscript/module_upload_config.gradle'
+apply from: rootDir.absolutePath + '/buildscript/module_upload_config.gradle'
 
 android {
     compileSdkVersion 26
@@ -9,8 +8,6 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -40,7 +37,6 @@ dependencies {
     compile('com.xueersi.lib:common:1.1.7-SNAPSHOT@aar') { changing = true }
 
 }
-
 
 
 

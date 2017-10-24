@@ -1,6 +1,5 @@
 apply plugin: 'com.android.library'
-apply plugin: 'maven'
-//apply from: rootDir.absolutePath + '/buildscript/module_upload_config.gradle'
+apply from: rootDir.absolutePath + '/buildscript/module_upload_config.gradle'
 
 android {
     compileSdkVersion 26
@@ -11,8 +10,6 @@ android {
         targetSdkVersion 26
         versionCode 110
         versionName "1.1.0"
-
-
     }
     buildTypes {
         release {
@@ -31,90 +28,3 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
 }
 
-
-afterEvaluate { project ->
-    // To avoid uploading the default empty jar artifact in the project root directory, we use a custom
-    // configuration to specify which artifacts we want to upload.
-    uploadArchives {
-        repositories {
-            mavenDeployer {
-                pom.groupId = GROUPID
-                pom.artifactId = POM_ARTIFACT_ID
-                pom.version = version
-
-                repository(url: mvn_android_release_url) {
-                    authentication(userName: mvn_release_name, password: mvn_release_pwd)
-                }
-                snapshotRepository(url: mvn_android_snapshot_url) {
-                    authentication(userName: mvn_snapshot_name, password: mvn_snapshot_pwd)
-                }
-                pom.project {
-                    name = POM_NAME
-                    packaging = POM_PACKAGING
-                    description = POM_DESCRIPTION
-                }
-            }
-        }
-    }
-
-    def isAndroidProject = project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')
-
-    if (isAndroidProject) {
-        def releaseVariants = project.android.libraryVariants.findAll {
-            it.buildType.name.equalsIgnoreCase('release')
-        }
-
-        task androidJavadocs(type: Javadoc, dependsOn: compileReleaseJavaWithJavac) {
-            source = releaseVariants.collect { it.javaCompile.source }
-            classpath = files(releaseVariants.collect { files(it.javaCompile.classpath.files,
-                    project.android.bootClasspath) })
-
-            options {
-                links('http://docs.oracle.com/javase/7/docs/api/')
-                linksOffline('http://d.android.com/reference', "${android.sdkDirectory}/docs/reference")
-            }
-
-            exclude '**/BuildConfig.java'
-            exclude '**/R.java'
-        }
-
-        task androidJavadocsJar(type: Jar, dependsOn: androidJavadocs) {
-            classifier = 'javadoc'
-            from androidJavadocs.destinationDir
-        }
-
-        task androidSourcesJar(type: Jar) {
-            classifier = 'sources'
-            from project.android.sourceSets.main.java.source
-        }
-//  不需要打jar包
-//        task androidLibraryJar(type: Jar, dependsOn: compileReleaseJavaWithJavac /* == variant.javaCompile */) {
-//            from compileReleaseJavaWithJavac.destinationDir
-//            exclude '**/R.class'
-//            exclude '**/BuildConfig.class'
-//        }
-
-        artifacts {
-//            archives androidLibraryJar
-            archives androidSourcesJar
-            archives androidJavadocsJar
-        }
-    } else if (project.plugins.hasPlugin('java')) {
-        task sourcesJar(type: Jar, dependsOn: classes) {
-            classifier = 'sources'
-            from sourceSets.main.allSource
-        }
-
-        task javadocsJar(type: Jar, dependsOn: javadoc) {
-            classifier = 'javadoc'
-            from javadoc.destinationDir
-        }
-
-        artifacts {
-            archives sourcesJar
-            archives javadocsJar
-        }
-    }
-    logger.info("Published artifacts in ${configurations.archives}:")
-    configurations.archives.artifacts.files.files.each { logger.info("\t$it"); }
-}

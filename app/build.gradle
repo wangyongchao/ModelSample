@@ -1,4 +1,12 @@
+import java.util.concurrent.TimeUnit
+
 apply plugin: 'com.android.application'
+apply plugin: 'maven'
+
+project.configurations.all {
+    it.resolutionStrategy.cacheDynamicVersionsFor(5, TimeUnit.MINUTES)
+    it.resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
+}
 
 android {
     compileSdkVersion 26
@@ -21,11 +29,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    repositories {
-        flatDir {
-            dirs 'libs' // aar目录
-        }
-    }
 }
 
 dependencies {
@@ -33,7 +36,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:26.+'
-    compile project(':model_a')
-//    compile project(':model_b')
+//    compile('com.xueersi.lib:common:1.1.7-SNAPSHOT@aar') { changing = true }
+//    compile('com.xueersi.bundle:modelA:5.8.0.0-SNAPSHOT@aar') { changing = true }
+//    compile('com.xueersi.bundle:modelB:5.8.0.0-SNAPSHOT@aar') { changing = true }
 
 }

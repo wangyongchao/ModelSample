@@ -14,6 +14,7 @@ public class ModelAActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_modela);
+        System.out.println("ModelAActivity");
 
         CommonUtils.testCommon();
 
