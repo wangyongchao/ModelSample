@@ -1,1 +1,4 @@
-include ':app', ':model_a', ':model_b', ':common', ':library'
+include ':app', ':model_a', ':model_b', ':common'
+include ':library:library_a'
+include ':library:library_b'
+include ':library:library_base'

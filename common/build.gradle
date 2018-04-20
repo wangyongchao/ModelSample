@@ -10,6 +10,12 @@ android {
         targetSdkVersion 26
         versionCode 110
         versionName "1.1.0"
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [moduleName: project.getName()]
+            }
+        }
     }
     buildTypes {
         release {
@@ -18,7 +24,7 @@ android {
         }
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
 }
@@ -26,5 +32,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:26.+'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
+
+    compile project(':library:library_base')
 }
 
