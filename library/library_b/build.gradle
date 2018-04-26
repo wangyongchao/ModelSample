@@ -42,8 +42,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
-
-    compile('com.test.lib:liba:1.0.0-SNAPSHOT@aar') { changing = true }
     compile project(':library:library_base')
 }
 
